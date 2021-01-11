@@ -12,7 +12,7 @@ intents.members = True
 def get_prefix(client, message):
     db = mysql.connector.connect(host=host, user=user, passwd=passwd, database=database)
     cursor = db.cursor()
-    cursor.execute("SELECT prefix FROM settings WHERE guild_id = %s" % (message.guild.id,))
+    cursor.execute("SELECT prefix FROM settings WHERE guild_id = %s", (message.guild.id,))
     prefix_tuple = cursor.fetchone()
     db.close()
 
@@ -45,18 +45,12 @@ async def change_status():
         status = discord.Activity(name=f"{users} Users Blacklisted", type=discord.ActivityType.watching)
         await client.change_presence(activity=status)
 
-        await asyncio.sleep(45)
+        await asyncio.sleep(60)
 
         status = discord.Activity(name=f"{len(client.guilds)} Servers", type=discord.ActivityType.watching)
         await client.change_presence(activity=status)
 
-        await asyncio.sleep(45)
-
-
-@client.event
-async def on_command_error(ctx, error):
-    if isinstance(error, commands.CommandNotFound):
-        pass
+        await asyncio.sleep(60)
 
 for folder in folder_list:
     print(f"[{bot_name}] ----------------------[ {folder.title()} ]--------------------")
